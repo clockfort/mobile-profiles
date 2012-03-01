@@ -1,6 +1,24 @@
+-- For Scotty
+{-# LANGUAGE OverloadedStrings #-}
+import Web.Scotty
+import Data.Monoid (mconcat)
+
+-- For LDAP
 import LDAP
 import LDAP.Constants
+
+-- For Me
 import Control.Monad.Trans
+import Data.Text.Lazy
+
+main = scotty 3000 $ do
+	get "/" $
+		file "main_search_page.html"
+	get "/uid/:uid" $ do
+		uid <- param "uid"
+		name <- liftIO $ getName $ unpack uid
+		json name
+
 
 lookupUID uid = 
 	do	
@@ -14,10 +32,11 @@ lookupUID uid =
 first ldapEntries = ldapEntries !! 0
 ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
 cn ("cn", [str]) = str
-commonName ldapEntry = cn $ ldapAttrs ldapEntry !! 0
+commonName ldapEntry = cn $ first $ ldapAttrs ldapEntry
 
 getName uid = do
 	users <- lookupUID uid
-	let user = users !! 0
+	let user = first users
 	let name = commonName user
 	return name
+
