@@ -10,7 +10,7 @@ Install the dependencies:
 * Latest version of Haskell Platform
 * Latest version Cabal
 * Latest version of LLVM 
-** (Recommended, but unnecessary if you choose to compile to a non-LLVM target)
+ * (Recommended, but unnecessary if you choose to compile to a non-LLVM target)
 * `cabal install LDAP scotty`
 
 Run the application with either `runghc profiles.hs` or use the included 
