@@ -10,24 +10,46 @@ import LDAP.Constants
 -- For Me
 import Control.Monad.Trans
 import Data.Text.Lazy
+import Config
 
 main = scotty 3000 $ do
 	get "/" $
-		file "main_search_page.html"
+		file "list.html"
+
 	get "/uid/:uid" $ do
 		uid <- param "uid"
 		name <- liftIO $ getName $ unpack uid
 		json name
 
-
+	-- It's worth noting that these are protected from unwanted 
+	-- directory traversal attacks (a la handle="../../../../foo")
+	-- by the library above me, so it needn't be handled here.
+	get "/iui/t/default/:handle" $ do --todo: add theming support for android
+		handle <- param "handle"
+		file $ "iui/t/default/" ++ (unpack handle)
+	get "/iui/:handle" $ do
+		handle <- param "handle"
+		file $ "iui/" ++ (unpack handle)
+	get "/css/:handle" $ do
+		handle <- param "handle"
+		file $ "css/" ++ (unpack handle)
+	get "/htmltest" $ do
+		html $ "<!DOCTYPE html><html><head><title>foo</title></head><body><h1>HTML Test</h1></body></html>"
+		
+		
 lookupUID uid = 
 	do	
-		cshLDAP <- ldapInit "ldap.csh.rit.edu" LDAP.Constants.ldapPort
-		ldapSimpleBind cshLDAP "cn=hsLDAP,ou=Apps,dc=csh,dc=rit,dc=edu" ""
-		let users = ldapSearch cshLDAP (Just "ou=Users,dc=csh,dc=rit,dc=edu") LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAttrList ["cn"]) False
+		cshLDAP <- ldapInit ldapHost LDAP.Constants.ldapPort
+		ldapSimpleBind cshLDAP ldapUsername ldapPassword
+		let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAttrList ["cn"]) False
 		users
 
-
+fetchAll uid = 
+	do	
+		cshLDAP <- ldapInit ldapHost LDAP.Constants.ldapPort
+		ldapSimpleBind cshLDAP ldapUsername ldapPassword
+		let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAllUserAttrs) False
+		users
 
 first ldapEntries = ldapEntries !! 0
 ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
