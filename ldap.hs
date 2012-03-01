@@ -12,7 +12,7 @@ import Control.Monad.Trans
 import Data.Text.Lazy
 import Config
 
-main = scotty 3000 $ do
+main = scotty (fromInteger listenPort) $ do
 	get "/" $
 		file "list.html"
 
@@ -21,10 +21,10 @@ main = scotty 3000 $ do
 		name <- liftIO $ getName $ unpack uid
 		json name
 
-	-- It's worth noting that these are protected from unwanted 
+	-- It's worth noting that these are protected from unwanted
 	-- directory traversal attacks (a la handle="../../../../foo")
 	-- by the library above me, so it needn't be handled here.
-	get "/iui/t/default/:handle" $ do --todo: add theming support for android
+	get "/iui/t/default/:handle" $ do --TODO: Add theming support for android
 		handle <- param "handle"
 		file $ "iui/t/default/" ++ (unpack handle)
 	get "/iui/:handle" $ do
@@ -39,14 +39,14 @@ main = scotty 3000 $ do
 		
 lookupUID uid = 
 	do	
-		cshLDAP <- ldapInit ldapHost LDAP.Constants.ldapPort
+		cshLDAP <- ldapInit ldapHost Config.ldapPort
 		ldapSimpleBind cshLDAP ldapUsername ldapPassword
 		let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAttrList ["cn"]) False
 		users
 
 fetchAll uid = 
 	do	
-		cshLDAP <- ldapInit ldapHost LDAP.Constants.ldapPort
+		cshLDAP <- ldapInit ldapHost Config.ldapPort
 		ldapSimpleBind cshLDAP ldapUsername ldapPassword
 		let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAllUserAttrs) False
 		users

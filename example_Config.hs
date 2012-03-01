@@ -1,6 +1,8 @@
 module Config where
 	import LDAP.Constants
 
+	listenPort = 3000
+	
 	ldapHost = "ldap.csh.rit.edu"
 	ldapPort = LDAP.Constants.ldapPort
 	
