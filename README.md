@@ -13,7 +13,7 @@ Install the dependencies:
  * Recommended, but unnecessary if you choose to compile to a non-LLVM target
 * `cabal install LDAP scotty`
 
-Run the application with either `runghc profiles.hs` or use the included 
+Run the application with either `runghc profiles` or use the included 
 makefile to run as a binary (`make && ./profiles`)
 
 

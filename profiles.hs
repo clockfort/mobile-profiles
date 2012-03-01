@@ -11,6 +11,7 @@ import LDAP.Constants
 import Control.Monad.Trans
 import Data.Text.Lazy
 import Config
+import HTMLGen
 
 main = scotty (fromInteger listenPort) $ do
 	get "/" $
@@ -35,7 +36,10 @@ main = scotty (fromInteger listenPort) $ do
 		file $ "css/" ++ (unpack handle)
 	get "/htmltest" $ do
 		html $ "<!DOCTYPE html><html><head><title>foo</title></head><body><h1>HTML Test</h1></body></html>"
-		
+	get "/htmlgentest" $ do
+		html $ pack $ htmlPage "Profiles"
+	get "/testcontact" $ do
+		html $ pack $ testContact
 		
 lookupUID uid = 
 	do	
