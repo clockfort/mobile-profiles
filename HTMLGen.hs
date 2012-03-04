@@ -44,11 +44,11 @@ module HTMLGen where
 		"<a class=\"button\" href=\"http://members.csh.rit.edu/profiles/\">Old Site</a>",
 		"</div>"]
 	
-	contactPage [names, cellphones, emails] = prettyConcat ["<html>", htmlHeader "../", "<body>", toolbar "", contactScreen [names, cellphones, emails], "</body>", "</html>"]
+	contactPage [names, cellphones, emails] = prettyConcat ["<html>", htmlHeader "../", "<body>", toolbar "Contact", contactScreen [names, cellphones, emails], "</body>", "</html>"]
 	
 	contactScreen [names, cellphones, emails] = prettyConcat [
 		"<ul id=\"screen1\" title=\"Profiles\" selected=\"true\">",
-		"<li class=\"group\">Username</li>",
+		"<li class=\"group\">Name</li>",
 		elementize names,
 		"<li class=\"group\">Cell Phone</li>",
 		elementize cellphones,
@@ -59,4 +59,5 @@ module HTMLGen where
 		"</ul>" ]
 	
 	
-	elementize strList = prettyConcat [concat["<li>",x,"</li>"] | x <- strList]	
+	elementize strList = prettyConcat [concat["<li>",x,"</li>"] | x <- strList] 
+	
