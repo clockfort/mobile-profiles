@@ -1,10 +1,8 @@
 module Backend where
 	-- For LDAP
 	import LDAP
-	import LDAP.Constants
 
 	-- For Me
-	import Control.Monad.Trans
 	import Data.Text.Lazy
 	import Data.Maybe
 	

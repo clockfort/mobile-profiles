@@ -1,16 +1,10 @@
 -- For Scotty
 {-# LANGUAGE OverloadedStrings #-}
 import Web.Scotty
-import Data.Monoid (mconcat)
-
--- For LDAP
-import LDAP
-import LDAP.Constants
 
 -- For Me
 import Control.Monad.Trans
 import Data.Text.Lazy
-import Data.Maybe
 
 -- Project-Internal
 import Config
