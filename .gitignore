@@ -1,3 +1,4 @@
 Config.hs
 *.hi
 *.o
+profiles
