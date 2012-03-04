@@ -59,6 +59,4 @@ module HTMLGen where
 		"</ul>" ]
 	
 	
-	elementize strList = prettyConcat [concat["<li>",x,"</li>"] | x <- strList] 
-	--testContact = prettyConcat ["<html>", htmlHeader, htmlBody "John Smith", contactScreen "jsmith" "(555) 585-9999" "(555) 638-2486" "jsmith@example.org", "</html>"]
-	
+	elementize strList = prettyConcat [concat["<li>",x,"</li>"] | x <- strList]	

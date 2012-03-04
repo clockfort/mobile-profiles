@@ -20,8 +20,6 @@ main = scotty (fromInteger listenPort) $ do
 
 	get "/uid/:uid" $ do
 		uid <- param "uid"
---		name <- liftIO $ getName $ unpack uid
---		json name
 		info <- liftIO $ getInfo $ unpack uid
 		html $ pack $ contactPage info
 		
@@ -37,12 +35,7 @@ main = scotty (fromInteger listenPort) $ do
 	get "/css/:handle" $ do
 		handle <- param "handle"
 		file $ "css/" ++ (unpack handle)
-	get "/htmltest" $ do
-		html $ "<!DOCTYPE html><html><head><title>foo</title></head><body><h1>HTML Test</h1></body></html>"
-	get "/htmlgentest" $ do
-		html $ pack $ htmlPage "Profiles"
---	get "/testcontact" $ do
---		html $ pack $ testContact
+
 		
 lookupUID uid = 
 	do	
@@ -61,16 +54,6 @@ fetchAll uid =
 
 first ldapEntries = ldapEntries !! 0
 ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
-
-commonName ldapEntry = lookup "cn" $ ldapAttrs ldapEntry
-cellNumber ldapEntry = lookup "cellPhone" $ ldapAttrs ldapEntry
-email ldapEntry = lookup "mail" $ ldapAttrs ldapEntry
-
-getName uid = do
-	users <- lookupUID uid
-	let user = first users
-	let name = commonName user
-	return name
 
 getInfo uid = do
 	users <- fetchAll uid
