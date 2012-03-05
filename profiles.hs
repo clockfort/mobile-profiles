@@ -29,10 +29,3 @@ main = scotty (fromInteger listenPort) $ do
 	get "/iui/:handle" $ do
 		handle <- param "handle"
 		file $ "iui/" ++ (unpack handle)
-	get "/css/:handle" $ do
-		handle <- param "handle"
-		file $ "css/" ++ (unpack handle)
-
-		
-
-

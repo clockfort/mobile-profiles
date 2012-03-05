@@ -18,7 +18,7 @@ module HTMLGen where
 	htmlCSS prelink = prettyConcat [
 		"<link rel=\"stylesheet\" href=\""++prelink++"iui/iui.css\" type=\"text/css\" />",
 		"<link rel=\"stylesheet\" title=\"Default\" href=\""++prelink++"iui/t/default/default-theme.css\"  type=\"text/css\"/>",
-		"<link rel=\"stylesheet\" href=\""++prelink++"css/iui-panel-list.css\" type=\"text/css\" />",
+		"<link rel=\"stylesheet\" href=\""++prelink++"iui/iui-panel-list.css\" type=\"text/css\" />",
 		"<style type=\"text/css\">",
 		".panel p.normalText { text-align: left;  padding: 0 10px 0 10px; }",
 		"</style>"
