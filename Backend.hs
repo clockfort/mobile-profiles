@@ -33,10 +33,12 @@ module Backend where
 		let cell = cellphones user
 		let home = homephones user
 		let email = emails user
-		return [name, cell, home, email]
+		let aim = aims user
+		return [name, cell, home, email, aim]
 
 
 	names ldapEntry = fromMaybe [] $ lookup "cn" $ ldapAttrs ldapEntry
 	cellphones ldapEntry = fromMaybe [] $ lookup "cellPhone" $ ldapAttrs ldapEntry
 	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry
 	emails ldapEntry = fromMaybe [] $ lookup "mail" $ ldapAttrs ldapEntry
+	aims ldapEntry = fromMaybe [] $ lookup "aolScreenName" $ ldapAttrs ldapEntry
