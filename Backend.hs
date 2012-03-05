@@ -30,11 +30,13 @@ module Backend where
 		users <- fetchAll uid
 		let user = first users
 		let name = names user
-		let cell = cells user
+		let cell = cellphones user
+		let home = homephones user
 		let email = emails user
-		return [name, cell, email]
+		return [name, cell, home, email]
 
 
-	names ldapEntry = fromMaybe [""] $ lookup "cn" $ ldapAttrs ldapEntry
-	cells ldapEntry = fromMaybe [""] $ lookup "cellPhone" $ ldapAttrs ldapEntry
-	emails ldapEntry = fromMaybe [""] $ lookup "mail" $ ldapAttrs ldapEntry	 
+	names ldapEntry = fromMaybe [] $ lookup "cn" $ ldapAttrs ldapEntry
+	cellphones ldapEntry = fromMaybe [] $ lookup "cellPhone" $ ldapAttrs ldapEntry
+	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry
+	emails ldapEntry = fromMaybe [] $ lookup "mail" $ ldapAttrs ldapEntry

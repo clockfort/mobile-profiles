@@ -44,20 +44,24 @@ module HTMLGen where
 		"<a class=\"button\" href=\"http://members.csh.rit.edu/profiles/\">Old Site</a>",
 		"</div>"]
 	
-	contactPage [names, cellphones, emails] = prettyConcat ["<html>", htmlHeader "../", "<body>", toolbar "Contact", contactScreen [names, cellphones, emails], "</body>", "</html>"]
+	contactPage [names, cellphones, homephones, emails] = prettyConcat [
+		"<html>",
+		htmlHeader "../",
+		"<body>",
+		toolbar "Contact",
+		contactScreen [names, cellphones, homephones, emails],
+		"</body>",
+		"</html>" ]
 	
-	contactScreen [names, cellphones, emails] = prettyConcat [
+	contactScreen [names, cellphones, homephones, emails] = prettyConcat [
 		"<ul id=\"screen1\" title=\"Profiles\" selected=\"true\">",
-		"<li class=\"group\">Name</li>",
-		elementize names,
-		"<li class=\"group\">Cell Phone</li>",
-		elementize cellphones,
---		"<li class=\"group\">Home Phone</li>",
---		elementize homephones,
-		"<li class=\"group\">Email Address</li>",
-		elementize emails,
+		elementize "Name" names,
+		elementize "Cell Phone" cellphones,
+		elementize "Home Phone" homephones,
+		elementize "Email Address" emails,
 		"</ul>" ]
 	
 	
-	elementize strList = prettyConcat [concat["<li>",x,"</li>"] | x <- strList] 
-	
+	elementize groupName strList
+		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li>",x,"</li>"] | x <- strList]
+		| otherwise = ""
