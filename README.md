@@ -7,7 +7,7 @@ environment.
 
 Install the dependencies:
 
-* Latest version of Haskell Platform
+* Latest version of the Haskell Platform
 * Latest version Cabal
 * Latest version of LLVM 
  * Recommended, but unnecessary if you choose to compile to a non-LLVM target
