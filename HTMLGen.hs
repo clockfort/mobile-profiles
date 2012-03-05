@@ -39,10 +39,12 @@ module HTMLGen where
 	htmlBody pageTitle = prettyConcat ["<body>", toolbar pageTitle, "</body>"]
 	
 	
-	toolbar pageTitle = prettyConcat ["<div class=\"toolbar\">", "<h1 id=\"pageTitle\">", pageTitle, "</h1>",
+	toolbar pageTitle = prettyConcat [
+		"<div class=\"toolbar\">",
+		"<h1 id=\"pageTitle\">"++pageTitle++"</h1>",
 		"<a id=\"backButton\" class=\"button\" href=\"#\"></a>",
 		"<a class=\"button\" href=\"http://members.csh.rit.edu/profiles/\">Old Site</a>",
-		"</div>"]
+		"</div>" ]
 	
 	contactPage [names, cellphones, homephones, emails] = prettyConcat [
 		"<html>",
