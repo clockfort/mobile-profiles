@@ -12,6 +12,7 @@ Install the dependencies:
 * Latest version of LLVM 
  * Recommended, but unnecessary if you choose to compile to a non-LLVM target
 * `cabal install LDAP scotty`
+* Update the repository and submodules with `make update`
 
 Run the application with either `runghc profiles` or use the included 
 makefile to run as a binary (`make && ./profiles`)
