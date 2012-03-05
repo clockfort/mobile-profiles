@@ -2,19 +2,16 @@
 A mobile-friendly webpage LDAP contacts viewer.
 
 ## Installation Instructions
-Rename "example_Config.hs" to "Config.hs" and edit as necessary for your 
+* Rename "example_Config.hs" to "Config.hs" and edit as necessary for your 
 environment.
-
-Install the dependencies:
-
-* Latest version of the Haskell Platform
-* Latest version of Cabal
-* Latest version of LLVM 
- * Recommended, but unnecessary if you choose to compile to a non-LLVM target
-* `cabal install LDAP scotty`
+* Install the dependencies:
+ * Latest version of the Haskell Platform
+ * Latest version of Cabal
+ * Latest version of LLVM 
+  * Recommended, but unnecessary if you choose to compile to a non-LLVM target
+ * `cabal install LDAP scotty`
 * Update the repository and submodules with `make update`
-
-Run the application with either `runghc profiles` or use the included 
+* Run the application with either `runghc profiles` or use the included 
 makefile to run as a binary (`make && ./profiles`)
 
 
