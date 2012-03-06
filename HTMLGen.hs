@@ -66,9 +66,23 @@ module HTMLGen where
 	
 	
 	elementize groupName strList
-		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li>",x,"</li>"] | x <- strList]
+		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li>",sanitize x,"</li>"] | x <- strList]
 		| otherwise = ""
 		
 	elementLink groupName strList linkPrefix
-		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li><a href=\"", linkPrefix, x, "\">", x, "</a></li>"] | x <- strList]
+		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li><a href=\"", linkPrefix, sanitize x, "\">", sanitize x, "</a></li>"] | x <- strList]
 		| otherwise = ""
+
+	sanitize str = stripEscapists $ stripTags str
+	
+	stripTags = res . foldl update (Right "")
+		where
+			res (Left s)  = s
+			res (Right s) = s
+
+			update (Left c) '>'  = Right c
+			update (Left c) _    = Left c
+			update (Right c) '<' = Left c
+			update (Right c) n   = Right (c ++ [n])
+
+	stripEscapists str = [ ch | ch <- str, ch `notElem` "\\<>\"" ]
