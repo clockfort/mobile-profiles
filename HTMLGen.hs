@@ -6,7 +6,7 @@ module HTMLGen where
 	prettyConcat (x:xs)	= x ++ "\n" ++ prettyConcat xs
 	
 	-- I really hope the compiler evaluates this at compile-time.
-	htmlPage pageTitle = prettyConcat ["<html>", htmlHeader "", htmlBody pageTitle, "</html>"]
+	htmlPage pageTitle = prettyConcat ["<!DOCTYPE html>","<html>", htmlHeader "", htmlBody pageTitle, "</html>"]
 	
 	htmlHeader prelink= prettyConcat ["<head>", htmlTitle, htmlMeta, htmlIcon, htmlCSS prelink, googleAnalytics, "</head>"]
 	htmlTitle = prettyConcat ["<title>","CSH Mobile Profiles","</title>"]
@@ -47,6 +47,7 @@ module HTMLGen where
 		"</div>" ]
 	
 	contactPage [names, cellphones, homephones, emails, aims] = prettyConcat [
+		"<!DOCTYPE html>",
 		"<html>",
 		htmlHeader "../",
 		"<body>",
