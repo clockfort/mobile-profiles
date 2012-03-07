@@ -1,6 +1,7 @@
 module HTMLGen where
 	-- I think this might be the most functional way to define dynamic webpages 
 	-- (combination of folds, recursion, and heavily nested build-upon functions)
+	import LDAPAttributes
 	
 	prettyConcat []		= []
 	prettyConcat (x:xs)	= x ++ "\n" ++ prettyConcat xs
@@ -86,4 +87,19 @@ module HTMLGen where
 			update (Right c) '<' = Left c
 			update (Right c) n   = Right (c ++ [n])
 
-	stripEscapists str = [ ch | ch <- str, ch `notElem` "\\<>\"" ]
+	stripEscapists str = [ ch | ch <- str, ch `notElem` "\\<>\"&" ]
+	
+	listPage people = prettyConcat [
+		"<!DOCTYPE html>",
+		"<html>",
+		htmlHeader "../",
+		"<body>",
+		toolbar "Profiles",
+		listScreen people,
+		"</body>",
+		"</html>" ]
+		
+	listScreen people = prettyConcat [
+		"<ul id=\"screen1\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		prettyConcat ["<li><a href=\"uid/"++sanitize (justAttr "uid" person)++"\">"++sanitize (justAttr "cn" person)++"</a></li>" | person <- people],
+		"</ul>" ]

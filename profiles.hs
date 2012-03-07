@@ -12,8 +12,9 @@ import HTMLGen
 import Backend
 
 main = scotty (fromInteger listenPort) $ do
-	get "/" $
-		file "list.html"
+	get "/" $ do
+		people <- liftIO $ sortedPeople
+		html $ pack $ listPage people
 
 	get "/uid/:uid" $ do
 		uid <- param "uid"
