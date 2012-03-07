@@ -1,7 +1,6 @@
 module HTMLGen where
 	-- I think this might be the most functional way to define dynamic webpages 
 	-- (combination of folds, recursion, and heavily nested build-upon functions)
-	import LDAPAttributes
 	import HTMLSanitize
 	import HTMLBackend
 		
