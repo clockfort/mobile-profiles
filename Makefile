@@ -3,7 +3,7 @@ all: profiles
 profiles: profiles.hi
 
 profiles.hi: profiles.hs HTMLGen.hs Config.hs Backend.hs
-	ghc -O2 -fllvm --make profiles.hs
+	ghc -O2 -fllvm -dno-debug-output --make profiles.hs
 
 update:
 	git pull
