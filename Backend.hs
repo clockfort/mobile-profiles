@@ -6,8 +6,10 @@ module Backend where
 	import qualified Data.Text.Lazy as Lazy
 	import Data.Maybe
 	import Data.List
-	import Config
 	
+	-- Internal
+	import Config
+	import LDAPAttributes
 
 	fetchAll uid = 
 		do	
@@ -23,8 +25,7 @@ module Backend where
 			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just "uid=*")  (LDAPAttrList ["cn", "sn"]) False
 			users
 			
-	first ldapEntries = ldapEntries !! 0
-	ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
+
 
 	getInfo uid = do
 		users <- fetchAll uid
@@ -37,17 +38,12 @@ module Backend where
 		return [name, cell, home, email, aim]
 
 
-	names ldapEntry = fromMaybe [] $ lookup "cn" $ ldapAttrs ldapEntry
-	cellphones ldapEntry = fromMaybe [] $ lookup "cellPhone" $ ldapAttrs ldapEntry
-	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry
-	emails ldapEntry = fromMaybe [] $ lookup "mail" $ ldapAttrs ldapEntry
-	aims ldapEntry = fromMaybe [] $ lookup "aolScreenName" $ ldapAttrs ldapEntry
-	sn ldapEntry = fromMaybe [] $ lookup "sn" $ ldapAttrs ldapEntry
+
 	
 	
 	sortedPeople = do
 		people <- fetchOverview
-		let list = sortBy surnameSort [ person | person <- people]
+		let list = map ldapAttrs $ sortBy surnameSort people
 		return list
 	
 
