@@ -3,17 +3,11 @@ module Backend where
 	import LDAP
 
 	-- For Me
-	import Data.Text.Lazy
+	import qualified Data.Text.Lazy as Lazy
 	import Data.Maybe
-	
+	import Data.List
 	import Config
 	
-	lookupUID uid = 
-		do	
-			cshLDAP <- ldapInit ldapHost Config.ldapPort
-			ldapSimpleBind cshLDAP ldapUsername ldapPassword
-			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAttrList ["cn"]) False
-			users
 
 	fetchAll uid = 
 		do	
@@ -22,7 +16,13 @@ module Backend where
 			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAllUserAttrs) False
 			users
 
-
+	fetchOverview = 
+		do	
+			cshLDAP <- ldapInit ldapHost Config.ldapPort
+			ldapSimpleBind cshLDAP ldapUsername ldapPassword
+			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just "uid=*")  (LDAPAttrList ["cn", "sn"]) False
+			users
+			
 	first ldapEntries = ldapEntries !! 0
 	ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
 
@@ -42,3 +42,16 @@ module Backend where
 	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry
 	emails ldapEntry = fromMaybe [] $ lookup "mail" $ ldapAttrs ldapEntry
 	aims ldapEntry = fromMaybe [] $ lookup "aolScreenName" $ ldapAttrs ldapEntry
+	sn ldapEntry = fromMaybe [] $ lookup "sn" $ ldapAttrs ldapEntry
+	
+	
+	sortedPeople = do
+		people <- fetchOverview
+		let list = sortBy surnameSort [ person | person <- people]
+		return list
+	
+
+	surnameSort personA personB | lowerSN personA  < lowerSN personB = LT
+								| otherwise = GT
+								
+	lowerSN person = map Lazy.toLower $ map Lazy.pack $ sn person
