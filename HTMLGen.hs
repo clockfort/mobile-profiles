@@ -2,10 +2,9 @@ module HTMLGen where
 	-- I think this might be the most functional way to define dynamic webpages 
 	-- (combination of folds, recursion, and heavily nested build-upon functions)
 	import LDAPAttributes
-	
-	prettyConcat []		= []
-	prettyConcat (x:xs)	= x ++ "\n" ++ prettyConcat xs
-	
+	import HTMLSanitize
+	import HTMLBackend
+		
 	-- I really hope the compiler evaluates this at compile-time.
 	htmlPage pageTitle = prettyConcat ["<!DOCTYPE html>","<html>", htmlHeader "", htmlBody pageTitle, "</html>"]
 	
@@ -67,27 +66,8 @@ module HTMLGen where
 		"</ul>" ]
 	
 	
-	elementize groupName strList
-		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li>",sanitize x,"</li>"] | x <- strList]
-		| otherwise = ""
-		
-	elementLink groupName strList linkPrefix
-		| (length strList) > 0	= prettyConcat $ ["<li class=\"group\">"++groupName++"</li>"] ++ [concat["<li><a href=\"", linkPrefix, sanitize x, "\">", sanitize x, "</a></li>"] | x <- strList]
-		| otherwise = ""
 
-	sanitize str = stripEscapists $ stripTags str
-	
-	stripTags = res . foldl update (Right "")
-		where
-			res (Left s)  = s
-			res (Right s) = s
 
-			update (Left c) '>'  = Right c
-			update (Left c) _    = Left c
-			update (Right c) '<' = Left c
-			update (Right c) n   = Right (c ++ [n])
-
-	stripEscapists str = [ ch | ch <- str, ch `notElem` "\\<>\"&" ]
 	
 	listPage people = prettyConcat [
 		"<!DOCTYPE html>",
@@ -101,5 +81,8 @@ module HTMLGen where
 		
 	listScreen people = prettyConcat [
 		"<ul id=\"screen1\" title=\"CSH Mobile Profiles\" selected=\"true\">",
-		prettyConcat ["<li><a href=\"uid/"++sanitize (justAttr "uid" person)++"\">"++sanitize (justAttr "cn" person)++"</a></li>" | person <- people],
+		groupedList people,
 		"</ul>" ]
+		
+		
+	
