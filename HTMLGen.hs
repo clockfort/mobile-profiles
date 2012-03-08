@@ -3,8 +3,7 @@ module HTMLGen where
 	-- (combination of folds, recursion, and heavily nested build-upon functions)
 	import HTMLSanitize
 	import HTMLBackend
-		
-	-- I really hope the compiler evaluates this at compile-time.
+	
 	htmlPage pageTitle = prettyConcat ["<!DOCTYPE html>","<html>", htmlHeader "", htmlBody pageTitle, "</html>"]
 	
 	htmlHeader prelink= prettyConcat ["<head>", htmlTitle, htmlMeta, htmlIcon, htmlCSS prelink, googleAnalytics, "</head>"]

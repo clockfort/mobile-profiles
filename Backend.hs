@@ -12,22 +12,23 @@ module Backend where
 	import LDAPAttributes
 	import HTMLSanitize
 	
+	
 	fetchAll uid = 
 		do	
 			cshLDAP <- ldapInit ldapHost Config.ldapPort
 			ldapSimpleBind cshLDAP ldapUsername ldapPassword
 			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ sanitize uid))  (LDAPAllUserAttrs) False
 			users
-
+	
+	
 	fetchOverview searchString = 
 		do	
 			cshLDAP <- ldapInit ldapHost Config.ldapPort
 			ldapSimpleBind cshLDAP ldapUsername ldapPassword
 			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("sn=" ++ sanitize searchString ++ "*"))  (LDAPAttrList ["cn", "sn", "uid"]) False
 			users
-			
-
-
+	
+	
 	getInfo uid = do
 		users <- fetchAll uid
 		let user = first users
@@ -37,9 +38,6 @@ module Backend where
 		let email = emails user
 		let aim = aims user
 		return [name, cell, home, email, aim]
-
-
-
 	
 	
 	sortedPeople searchString = do
@@ -47,8 +45,10 @@ module Backend where
 		let list = map ldapAttrs $ sortBy surnameSort people
 		return list
 	
-
-	surnameSort personA personB | lowerSN personA  < lowerSN personB = LT
-								| otherwise = GT
-								
+	
+	surnameSort personA personB
+		| lowerSN personA  < lowerSN personB = LT
+		| otherwise = GT
+	
+	
 	lowerSN person = map Lazy.toUpper $ map Lazy.pack $ sn person

@@ -5,6 +5,8 @@ module LDAPAttributes where
 	first ldapEntries = ldapEntries !! 0
 	ldapAttrs (LDAPEntry {leattrs = attrs}) = attrs
 	
+	-- Wrappers that simultaenously provide for LDAP attribute element retrieval
+	-- and deal with cases of non-existant elements gracefully
 	names ldapEntry = fromMaybe [] $ lookup "cn" $ ldapAttrs ldapEntry
 	cellphones ldapEntry = fromMaybe [] $ lookup "cellPhone" $ ldapAttrs ldapEntry
 	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry

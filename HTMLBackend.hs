@@ -16,7 +16,6 @@ module HTMLBackend where
 			sanitize x, "</a></li>"] | x <- strList]
 		| otherwise = ""
 	
-	
 	groupedList people = prettyConcat ["<li><a href=\"../uid/"++sanitize (justAttr "uid" person)++"\">"++sanitize (justAttr "cn" person)++"</a></li>" | person <- people]
 	
 	alphaList = prettyConcat ["<li class=\"group\"><a href=\"search/"++ sanitize [ch] ++ "\">"++sanitize [ch]++"</a></li>" | ch <- ['A'..'Z']]
