@@ -65,6 +65,17 @@ module HTMLGen where
 		"</ul>" ]
 	
 	
+	indexPage = prettyConcat [
+		"<!DOCTYPE html>",
+		"<html>",
+		htmlHeader "../",
+		"<body>",
+		toolbar "Profiles",
+		"<ul id=\"screen1\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		alphaList,
+		"</ul>",
+		"</body>",
+		"</html>" ]
 
 
 	

@@ -13,9 +13,13 @@ import Backend
 
 main = scotty (fromInteger listenPort) $ do
 	get "/" $ do
-		people <- liftIO $ sortedPeople
+		html $ pack $ indexPage
+		
+	get "/search/:search" $ do
+		search <- param "search"
+		people <- liftIO $ sortedPeople $ unpack search
 		html $ pack $ listPage people
-
+		
 	get "/uid/:uid" $ do
 		uid <- param "uid"
 		info <- liftIO $ getInfo $ unpack uid

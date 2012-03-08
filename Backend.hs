@@ -10,19 +10,20 @@ module Backend where
 	-- Internal
 	import Config
 	import LDAPAttributes
-
+	import HTMLSanitize
+	
 	fetchAll uid = 
 		do	
 			cshLDAP <- ldapInit ldapHost Config.ldapPort
 			ldapSimpleBind cshLDAP ldapUsername ldapPassword
-			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ uid))  (LDAPAllUserAttrs) False
+			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("uid=" ++ sanitize uid))  (LDAPAllUserAttrs) False
 			users
 
-	fetchOverview = 
+	fetchOverview searchString = 
 		do	
 			cshLDAP <- ldapInit ldapHost Config.ldapPort
 			ldapSimpleBind cshLDAP ldapUsername ldapPassword
-			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just "uid=*")  (LDAPAttrList ["cn", "sn", "uid"]) False
+			let users = ldapSearch cshLDAP (Just ldapSearchOU) LdapScopeSubtree (Just ("sn=" ++ sanitize searchString ++ "*"))  (LDAPAttrList ["cn", "sn", "uid"]) False
 			users
 			
 
@@ -41,8 +42,8 @@ module Backend where
 
 	
 	
-	sortedPeople = do
-		people <- fetchOverview
+	sortedPeople searchString = do
+		people <- fetchOverview searchString
 		let list = map ldapAttrs $ sortBy surnameSort people
 		return list
 	
