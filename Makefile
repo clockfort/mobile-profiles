@@ -1,12 +1,14 @@
-all: profiles
+all: llvm
 
-profiles: profiles.hi
+llvm: profiles.hs HTMLGen.hs Config.hs Backend.hs
+	ghc -O2 -fllvm -optc-ffast-math -optc-O3 -funfolding-use-threshold=16 -dno-debug-output --make profiles.hs
 
-profiles.hi: profiles.hs HTMLGen.hs Config.hs Backend.hs
-	ghc -O2 -fllvm -dno-debug-output --make profiles.hs
+native: profiles.hs HTMLGen.hs Config.hs Backend.hs
+	ghc -O2 -optc-ffast-math -optc-O3 -funfolding-use-threshold=16 -dno-debug-output --make profiles.hs
 
 code-profile:
-	ghc -prof -fllvm -auto-all -O2 --make profiles.hs
+	ghc -rtsopts -prof -fllvm -auto-all -O2 --make profiles.hs
+
 update:
 	git pull
 	git submodule init
