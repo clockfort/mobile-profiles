@@ -54,8 +54,14 @@ module HTMLGen where
 		"</body>",
 		"</html>" ]
 	
+	contactPageExcerpt [names, cellphones, homephones, emails, aims] = prettyConcat [
+		"<div title=\"Contact Excerpt\">",
+		contactScreen [names, cellphones, homephones, emails, aims],
+		"</div>"
+		]
+		
 	contactScreen [names, cellphones, homephones, emails, aims] = prettyConcat [
-		"<ul id=\"screen1\" title=\"Profiles\" selected=\"true\">",
+		"<ul id=\"Contact\" title=\"Profiles\" selected=\"true\">",
 		elementize "Name" names,
 		elementize "Cell Phone" cellphones,
 		elementize "Home Phone" homephones,
@@ -70,7 +76,7 @@ module HTMLGen where
 		htmlHeader "../",
 		"<body>",
 		toolbar "Profiles",
-		"<ul id=\"screen1\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		"<ul id=\"Index\" title=\"CSH Mobile Profiles\" selected=\"true\">",
 		alphaList,
 		"</ul>",
 		"</body>",
@@ -89,7 +95,7 @@ module HTMLGen where
 		"</html>" ]
 		
 	listScreen people = prettyConcat [
-		"<ul id=\"screen1\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		"<ul id=\"List\" title=\"CSH Mobile Profiles\" selected=\"true\">",
 		groupedList people,
 		"</ul>" ]
 		
