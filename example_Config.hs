@@ -1,9 +1,8 @@
 module Config where
 	import LDAP.Constants
-	import Network.Wai.Handler.Warp
 	
 	listenPort = 3000
-	listenAddress = Host "127.0.0.1"
+	listenAddress = "127.0.0.1"
 	
 	ldapHost = "ldap.csh.rit.edu"
 	ldapPort = LDAP.Constants.ldapPort

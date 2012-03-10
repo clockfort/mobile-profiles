@@ -13,7 +13,7 @@ import Backend
 
 import Network.Wai.Handler.Warp
 
-settings = defaultSettings { settingsPort = (fromInteger listenPort), settingsHost = listenAddress }
+settings = defaultSettings { settingsPort = (fromInteger listenPort), settingsHost = Host listenAddress }
 
 -- | Run a scotty application using the warp server, but with settings rather than port.
 -- | I might push this to xich's repo, it'd likely be useful for other people.
