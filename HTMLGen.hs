@@ -7,7 +7,7 @@ module HTMLGen where
 	htmlPage pageTitle = prettyConcat ["<!DOCTYPE html>","<html>", htmlHeader "", htmlBody pageTitle, "</html>"]
 	
 	htmlHeader prelink= prettyConcat ["<head>", htmlTitle, htmlMeta, htmlIcon, htmlCSS prelink, googleAnalytics, "</head>"]
-	htmlTitle = prettyConcat ["<title>","CSH Mobile Profiles","</title>"]
+	htmlTitle = prettyConcat ["<title>","CSH Profiles","</title>"]
 	htmlMeta = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0\"/>"
 	
 	htmlIcon = prettyConcat ["<link rel=\"icon\" type=\"image/x-icon\" href=\"http://csh.rit.edu/files/favicon.ico\">",
@@ -76,7 +76,7 @@ module HTMLGen where
 		htmlHeader "../",
 		"<body>",
 		toolbar "Profiles",
-		"<ul id=\"Index\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		"<ul id=\"Index\" title=\"Member Profiles\" selected=\"true\">",
 		alphaList,
 		"</ul>",
 		"</body>",
@@ -95,7 +95,7 @@ module HTMLGen where
 		"</html>" ]
 		
 	listScreen people = prettyConcat [
-		"<ul id=\"List\" title=\"CSH Mobile Profiles\" selected=\"true\">",
+		"<ul id=\"List\" title=\"Member Profiles\" selected=\"true\">",
 		groupedList people,
 		"</ul>" ]
 		
