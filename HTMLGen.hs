@@ -63,8 +63,8 @@ module HTMLGen where
 	contactScreen [names, cellphones, homephones, emails, aims] = prettyConcat [
 		"<ul id=\"Contact\" title=\"Profiles\" selected=\"true\">",
 		elementize "Name" names,
-		elementize "Cell Phone" cellphones,
-		elementize "Home Phone" homephones,
+		elementLink "Cell Phone" cellphones "tel:",
+		elementLink "Home Phone" homephones "tel:",
 		elementLink "Email Address" emails "mailto:",
 		elementLink "AIM Screen Name" aims "aim:goim?screenname=",
 		"</ul>" ]
