@@ -13,14 +13,10 @@ import Backend
 
 import Network.Wai.Handler.Warp
 
-settings = defaultSettings { settingsPort = (fromInteger listenPort), settingsHost = Host listenAddress }
+waiSettings = defaultSettings { settingsPort = (fromInteger listenPort), settingsHost = HostIPv4 }
+opts = Options {verbose = 1, settings = waiSettings}
 
--- | Run a scotty application using the warp server, but with settings rather than port.
--- | I might push this to xich's repo, it'd likely be useful for other people.
-scottySettings :: Settings -> ScottyM () -> IO ()
-scottySettings settings scotty = putStrLn "Setting phasers to kill... (ctrl-c to quit)" >> (runSettings settings =<< scottyApp scotty)
-
-main = scottySettings settings $ do
+main = scottyOpts opts $ do
 	get "/" $ do
 		html $ pack $ indexPage
 		
