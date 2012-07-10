@@ -18,7 +18,7 @@ opts = Options {verbose = 1, settings = waiSettings}
 
 main = scottyOpts opts $ do
 	get "/" $ do
-		html $ pack $ indexPage
+		html $ pack indexPage
 		
 	get "/search/:search" $ do
 		search <- param "search"
@@ -35,7 +35,7 @@ main = scottyOpts opts $ do
 	-- by the library above me, so it needn't be handled here.
 	get "/iui/t/default/:handle" $ do --TODO: Add theming support for android
 		handle <- param "handle"
-		file $ "iui/t/default/" ++ (unpack handle)
+		file $ "iui/t/default/" ++ unpack handle
 	get "/iui/:handle" $ do
 		handle <- param "handle"
-		file $ "iui/" ++ (unpack handle)
+		file $ "iui/" ++ unpack handle

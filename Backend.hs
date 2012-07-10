@@ -51,4 +51,5 @@ module Backend where
 		| otherwise = GT
 	
 	
-	lowerSN person = map Lazy.toUpper $ map Lazy.pack $ sn person
+	lowerSN person = map (Lazy.toUpper . Lazy.pack) (sn person)
+
