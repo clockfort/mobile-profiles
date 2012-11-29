@@ -8,7 +8,7 @@ module LDAPAttributes where
 	-- Wrappers that simultaenously provide for LDAP attribute element retrieval
 	-- and deal with cases of non-existant elements gracefully
 	names ldapEntry = fromMaybe [] $ lookup "cn" $ ldapAttrs ldapEntry
-	cellphones ldapEntry = fromMaybe [] $ lookup "cellPhone" $ ldapAttrs ldapEntry
+	cellphones ldapEntry = fromMaybe [] $ lookup "mobile" $ ldapAttrs ldapEntry
 	homephones ldapEntry = fromMaybe [] $ lookup "homePhone" $ ldapAttrs ldapEntry
 	emails ldapEntry = fromMaybe [] $ lookup "mail" $ ldapAttrs ldapEntry
 	aims ldapEntry = fromMaybe [] $ lookup "aolScreenName" $ ldapAttrs ldapEntry
