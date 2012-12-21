@@ -1,3 +1,3 @@
 [submodule "iui"]
 	path = iui
-	url = git@github.com:clockfort/iui.git
+	url = https://github.com/clockfort/iui.git
